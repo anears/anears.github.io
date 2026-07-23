@@ -1,9 +1,8 @@
-"AJP":
-  url: https://aapt.scitation.org/journal/ajp
-  color: "#00369f"
-
-"PhysRev":
-  url: https://journals.aps.org/
-
-"Vision":
-  color: "#009f36"
+"ICLR":
+  url: https://iclr.cc/
+"MICCAI":
+  url: https://www.miccai.org/
+"ISBI":
+  url: https://biomedicalimaging.org/
+"BMVC":
+  url: https://bmvc2023.org/
