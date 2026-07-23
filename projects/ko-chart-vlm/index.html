@@ -1,0 +1,133 @@
+<!DOCTYPE html> <html lang="ko"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> ko-chart-vlm | 권기택 · Gitaek Kwon </title> <meta name="author" content="Gitaek Kwon"> <meta name="description" content="한국어 차트를 못 읽는 VLM을 7일 만에 진단 → 파인튜닝 → 서빙까지 풀사이클로 고친 사이드 프로젝트 (val 70.2% → 96.6%)"> <meta name="keywords" content="gitaek kwon, medical ai, computer vision, out-of-distribution detection, fundus, deep learning"> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=f0b101217084a90093badfe99ff9a7d1"> <link rel="canonical" href="https://anears.github.io/projects/ko-chart-vlm/"> <script src="/assets/js/theme.js?v=7af685e2ba20b37fef545c97b8064050"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> 권기택 · Gitaek Kwon </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/projects/">projects <span class="sr-only">(current)</span> </a> </li> <li class="nav-item "> <a class="nav-link" href="/repositories/">repositories </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">ko-chart-vlm</h1> <p class="post-description">한국어 차트를 못 읽는 VLM을 7일 만에 진단 → 파인튜닝 → 서빙까지 풀사이클로 고친 사이드 프로젝트 (val 70.2% → 96.6%)</p> </header> <article> <p>오픈소스 VLM(<strong>Qwen3-VL-8B</strong>)이 한국어 차트를 얼마나 읽는지 <strong>숫자로 측정</strong>하고, 약점을 겨냥한 합성 데이터로 <strong>QLoRA 파인튜닝</strong>해 <strong>val 정확도 70.2% → 96.6%(+26.4%p)</strong> 로 끌어올린 뒤, <strong>vLLM 서빙</strong>까지 진행한 7일 사이드 프로젝트입니다.</p> <div class="row justify-content-center"> <div class="col-sm-8 mt-3 mt-md-0"> <figure> <picture> <source class="responsive-img-srcset" srcset="/assets/img/ko-chart-vlm-480.webp 480w,/assets/img/ko-chart-vlm-800.webp 800w,/assets/img/ko-chart-vlm-1400.webp 1400w," type="image/webp" sizes="95vw"></source> <img src="/assets/img/ko-chart-vlm.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" title="한국어 단위 환산 약점 진단용 차트" loading="eager" onerror="this.onerror=null; document.querySelectorAll('.responsive-img-srcset').forEach(function (n) { n.remove(); });"> </picture> </figure> </div> </div> <div class="caption"> 진단에 쓴 차트 예시 — "연구개발 예산은 몇 억 원인가요?"(차트엔 0.85조)에 zero-shot 모델은 850억 원이라고 답했다(10배 오류). 1조 = 10,000억이라는 한국어 단위 체계가 비어 있었다. </div> <h2 id="무엇을-했나">무엇을 했나</h2> <ul> <li> <strong>Day 1 · 진단</strong> — 수기 차트 8장·질문 16개로 모델이 무너지는 지점을 특정: ① 조→억 단위 환산(0%) ② 값 라벨 없는 조밀 차트의 순위 판단 ③ 근소한 값 비교.</li> <li> <strong>Day 2 · 합성 데이터</strong> — matplotlib + 나눔고딕으로 약점을 겨냥한 차트 2,000장, <strong>5,671 QA쌍</strong> 생성. 정답은 원본 데이터에서 계산(하드코딩 없음), train/val 시드 분리로 누수 차단.</li> <li> <strong>Day 3 · 평가 벤치마크</strong> — 한국어 단위를 정규 원-환산값으로 바꿔 “8,500억”·”0.85조”·”850000000000”을 같은 잣대로 채점하는 strict/relaxed 채점기 설계(자체검증 20/20).</li> <li> <strong>Day 4 · QLoRA 파인튜닝</strong> — LLaMA-Factory, 4bit, LLM 디코더만 학습(전체 파라미터의 <strong>0.5%</strong>). RTX 4090 한 장으로 약 1시간 40분.</li> <li> <strong>Day 5 · 오류 분석·ablation</strong> — 조→억 환산 0% → 96%, 조밀 차트 순위 57% → 95%. <strong>1 epoch가 3 epoch의 ~99%를 1/3 시간에 달성</strong>하는 것도 확인.</li> <li> <strong>Day 6 · 서빙</strong> — 어댑터 병합 후 <strong>vLLM</strong> 원본·파인튜닝 나란히 비교하는 Gradio 데모. <strong>AWQ W4A16</strong> 양자화로 17GB → 6.8GB.</li> </ul> <h2 id="정직하게-기록한-한계">정직하게 기록한 한계</h2> <ul> <li> <strong>합성 SFT는 렌더링 분포에 과적합</strong> — 분포 밖 수기 차트에선 75% → 81%로 부분만 전이됐고, 환산 오류는 방향만 뒤집혔습니다(10배 과소 → 10배 과대).</li> <li> <strong>오프라인 정확도가 서빙으로 그대로 이어지지 않음</strong> — 같은 가중치인데 transformers 평가와 vLLM 서빙의 이미지 전처리 경로(resize factor 28 vs 32)가 달라 답이 달라지는 <strong>train/serve preprocessing skew</strong>를 서빙 단계에서 실제로 잡았습니다.</li> </ul> <h2 id="링크">링크</h2> <ul> <li>GitHub: <a href="https://github.com/anears/ko-chart-vlm" rel="external nofollow noopener" target="_blank">anears/ko-chart-vlm</a> — 일자별 리포트·코드·wandb 로그</li> <li>정리 글: <a href="https://github.com/anears/ko-chart-vlm/blob/main/docs/blog.md" rel="external nofollow noopener" target="_blank">한국어 차트를 못 읽는 VLM, 7일 만에 고치기</a> </li> </ul> <p><strong>스택</strong>: Qwen3-VL-8B · LLaMA-Factory (QLoRA) · vLLM · llmcompressor (AWQ) · uv</p> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Gitaek Kwon. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-publications",
+          title: "publications",
+          description: "최신순으로 정리한 논문 목록입니다. 국제 학회·저널 10편, 국내 학회 3편.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-projects",
+          title: "projects",
+          description: "직접 진행한 프로젝트들입니다.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/projects/";
+          },
+        },{id: "nav-repositories",
+          title: "repositories",
+          description: "GitHub 프로필과 저장소입니다.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/repositories/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "학력·경력·수상·특허 요약입니다.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
+        },{id: "news-miccai-2022-당뇨망막병증-분석-챌린지-drac-에서-3개-태스크-전부-1위를-차지했습니다-trophy",
+          title: 'MICCAI 2022 당뇨망막병증 분석 챌린지(DRAC)에서 3개 태스크 전부 1위를 차지했습니다. <img class="emoji" title=":trophy:" alt=":trophy:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3c6.png" height="20" width="20">',
+          description: "",
+          section: "News",},{id: "news-영국-애버딘에서-열린-bmvc-2023에서-visual-foundation-model-기반-합성-outlier-생성으로-ood-탐지-성능을-개선하는-연구를-oral로-발표했습니다-microphone",
+          title: '영국 애버딘에서 열린 BMVC 2023에서 visual foundation model 기반 합성 outlier 생성으로 OOD...',
+          description: "",
+          section: "News",},{id: "news-isbi-2024-justraigs-녹내장-스크리닝-챌린지에서-종합-1위를-차지했습니다-trophy",
+          title: 'ISBI 2024 JustRAIGS 녹내장 스크리닝 챌린지에서 종합 1위를 차지했습니다. <img class="emoji" title=":trophy:" alt=":trophy:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3c6.png" height="20" width="20">',
+          description: "",
+          section: "News",},{id: "news-공저-논문-2편이-게재-승인되었습니다-iclr-2026-frequency-balanced-retinal-representation-learning-isbi-2026-ml-vs-dl-for-ood-detection",
+          title: '공저 논문 2편이 게재 승인되었습니다 — ICLR 2026 (Frequency-Balanced Retinal Representation Learning), ISBI...',
+          description: "",
+          section: "News",},{id: "projects-ko-chart-vlm",
+          title: 'ko-chart-vlm',
+          description: "한국어 차트를 못 읽는 VLM을 7일 만에 진단 → 파인튜닝 → 서빙까지 풀사이클로 고친 사이드 프로젝트 (val 70.2% → 96.6%)",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/ko-chart-vlm/";
+            },},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%6B%77%6F%6E%67%69%74%61%63%6B@%67%6D%61%69%6C.%63%6F%6D", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/anears", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/gitaek", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=oOWVM3IAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-rss',
+        title: 'RSS Feed',
+        section: 'Socials',
+        handler: () => {
+          window.open("/feed.xml", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>

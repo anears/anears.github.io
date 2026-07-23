@@ -39,7 +39,7 @@ ninja.data = [{
           },
         },{id: "nav-projects",
           title: "projects",
-          description: "의료 AI 제품·연구 프로젝트 — 준비 중입니다.",
+          description: "직접 진행한 프로젝트들입니다.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
@@ -70,7 +70,12 @@ ninja.data = [{
           section: "News",},{id: "news-공저-논문-2편이-게재-승인되었습니다-iclr-2026-frequency-balanced-retinal-representation-learning-isbi-2026-ml-vs-dl-for-ood-detection",
           title: '공저 논문 2편이 게재 승인되었습니다 — ICLR 2026 (Frequency-Balanced Retinal Representation Learning), ISBI...',
           description: "",
-          section: "News",},{
+          section: "News",},{id: "projects-ko-chart-vlm",
+          title: 'ko-chart-vlm',
+          description: "한국어 차트를 못 읽는 VLM을 7일 만에 진단 → 파인튜닝 → 서빙까지 풀사이클로 고친 사이드 프로젝트 (val 70.2% → 96.6%)",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/ko-chart-vlm/";
+            },},{
         id: 'social-email',
         title: 'email',
         section: 'Socials',
