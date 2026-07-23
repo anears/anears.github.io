@@ -4,4 +4,8 @@ github_users:
 repo_description_lines_max: 2
 
 github_repos:
-  - anears/anears.github.io
+  - anears/ko-chart-vlm
+  - anears/SHIFT
+  - anears/DRAC22_MICCAI_FAI
+  - anears/Artiview
+  - anears/claude-tower

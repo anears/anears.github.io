@@ -123,7 +123,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: blog # blog_name will be displayed in your blog page
-blog_description: notes on medical AI and computer vision
+blog_description: 의료 AI · 컴퓨터비전, 그리고 만들어 본 것들의 기록
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
