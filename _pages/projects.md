@@ -1,8 +1,8 @@
 ---
 layout: page
-title: projects
+title: 프로젝트
 permalink: /projects/
-description: Product work and research projects in medical imaging AI — coming soon.
+description: 의료 AI 제품·연구 프로젝트 — 준비 중입니다.
 nav: true
 nav_order: 3
 # display_categories: [product, research] # re-enable when project pages are added back

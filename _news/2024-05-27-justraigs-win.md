@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Our team ranked **1st overall** in the JustRAIGS glaucoma screening challenge at ISBI 2024. :trophy:
+ISBI 2024 JustRAIGS 녹내장 스크리닝 챌린지에서 **종합 1위**를 차지했습니다. :trophy:

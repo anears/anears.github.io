@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Two co-authored papers accepted: *Frequency-Balanced Retinal Representation Learning* at **ICLR 2026** and *ML vs. DL for OOD Detection* at **ISBI 2026**.
+공저 논문 2편이 게재 승인되었습니다 — **ICLR 2026** (*Frequency-Balanced Retinal Representation Learning*), **ISBI 2026** (*ML vs. DL for OOD Detection*).
