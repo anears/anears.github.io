@@ -2,7 +2,7 @@
 layout: page
 title: projects
 permalink: /projects/
-description: 의료 AI 제품·연구 프로젝트 — 준비 중입니다.
+description: 직접 진행한 프로젝트들입니다.
 nav: true
 nav_order: 3
 # display_categories: [product, research] # re-enable when project pages are added back
