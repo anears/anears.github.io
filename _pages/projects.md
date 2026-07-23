@@ -2,10 +2,11 @@
 layout: page
 title: projects
 permalink: /projects/
-description: Product work and research projects in medical imaging AI.
+description: Product work and research projects in medical imaging AI — coming soon.
 nav: true
 nav_order: 3
-display_categories: [product, research]
+# display_categories: [product, research] # re-enable when project pages are added back
+
 horizontal: false
 ---
 
