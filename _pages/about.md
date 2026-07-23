@@ -1,8 +1,8 @@
 ---
 layout: about
-title: 소개
+title: about
 permalink: /
-subtitle: AI 연구원 — 의료영상 · 컴퓨터비전
+subtitle: AI Researcher — Medical Imaging · Computer Vision
 
 profile:
   align: right

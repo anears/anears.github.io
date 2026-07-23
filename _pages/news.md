@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 소식
+title: news
 permalink: /news/
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /repositories/
-title: 저장소
+title: repositories
 description: GitHub 프로필과 저장소입니다.
 nav: true
 nav_order: 4

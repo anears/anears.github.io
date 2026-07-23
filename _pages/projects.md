@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 프로젝트
+title: projects
 permalink: /projects/
 description: 의료 AI 제품·연구 프로젝트 — 준비 중입니다.
 nav: true

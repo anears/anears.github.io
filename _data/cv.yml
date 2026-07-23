@@ -1,6 +1,6 @@
 cv:
   name: 권기택 (Gitaek Kwon)
-  label: AI 연구원 — 의료영상 · 컴퓨터비전
+  label: AI Researcher — Medical Imaging · Computer Vision
   email: kwongitack@gmail.com
   location: 경기도 용인시
   image: ""
@@ -13,7 +13,7 @@ cv:
       username: gitaek
 
   sections:
-    학력:
+    Education:
       - institution: 한양대학교 대학원
         location: 서울
         area: 컴퓨터소프트웨어학과 (컴퓨터비전 연구실, 지도교수 임종우)
@@ -35,9 +35,9 @@ cv:
           - ACM-ICPC 한국 지역 본선 동상 — 10위 (2016).
           - 알고리즘 동아리 ALOHA 회장 (2017) — 커리큘럼·캠프·교내 프로그래밍 대회(HCPC) 기획·운영.
 
-    경력:
+    Experience:
       - company: 뷰노 (VUNO, Inc.)
-        position: AI 연구원 (연구개발본부 / Fundus 팀)
+        position: AI Researcher (연구개발본부 / Fundus 팀)
         location: 서울
         start_date: 2021-03
         end_date: 2026-07
@@ -52,7 +52,7 @@ cv:
           - 인허가를 위한 임상 검증(다기관 Reader Study, 확증 임상시험) 참여.
           - LangGraph 기반 멀티에이전트 연구 자동화 harness 구축.
 
-    수상:
+    Awards:
       - title: JustRAIGS 챌린지 종합 1위 (Justified Referral in AI Glaucoma Screening)
         date: 2024-05
         awarder: ISBI 2024
@@ -68,7 +68,7 @@ cv:
         awarder: ACM
         summary: 국제 대학생 프로그래밍 대회 (ICPC) 한국 본선.
 
-    특허:
+    Patents:
       - title: 병변 정보 제공 방법 및 장치
         date: 2023-12
         awarder: 특허청 — 출원 10-2023-0184784
@@ -84,20 +84,20 @@ cv:
         awarder: 특허청 — 등록 10-2224101
         summary: 공동발명. 석사 객체 추적 연구 기반.
 
-    스킬:
-      - name: 딥러닝 / 컴퓨터비전
+    Skills:
+      - name: Deep Learning / Computer Vision
         icon: fa-solid fa-hashtag
         keywords: "분류·분할·검출, OOD 탐지, 준지도/자기지도학습, diffusion 기반 영상 합성 — PyTorch"
 
-      - name: ML 엔지니어링
+      - name: ML Engineering
         icon: fa-solid fa-hashtag
         keywords: "Docker 추론 런타임 패키징, Celery+Redis 비동기 워커, CI/CD (GitHub Actions)·모델 가중치 암호화, ONNX/OpenVINO 변환, INT8 양자화"
 
-      - name: 프로그래밍
+      - name: Programming
         icon: fa-solid fa-hashtag
         keywords: "Python, C++ (알고리즘 — ACM-ICPC)"
 
-    어학:
+    Languages:
       - name: 한국어
         summary: "모국어"
 

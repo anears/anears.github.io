@@ -1,7 +1,7 @@
 ---
 layout: cv
 permalink: /cv/
-title: 이력서
+title: CV
 nav: true
 nav_order: 5
 # cv_pdf: # PDF 이력서가 준비되면 /assets/pdf/ 에 넣고 경로를 지정하면 다운로드 버튼이 생깁니다
