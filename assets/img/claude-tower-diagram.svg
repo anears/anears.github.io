@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 470" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#52514e"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2a78d6"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="920" height="470" rx="12" fill="#fcfcfb" stroke="#e8e7e3"/>
+
+  <!-- left: machines -->
+  <g font-size="13">
+    <g>
+      <rect x="30" y="64" width="212" height="92" rx="8" fill="#ffffff" stroke="#d8d7d2"/>
+      <text x="46" y="90" font-weight="700" fill="#0b0b0b">MacBook (local)</text>
+      <text x="46" y="112" font-family="Menlo,monospace" font-size="11" fill="#52514e">~/.claude/projects</text>
+      <circle cx="52" cy="134" r="5" fill="#eda100"/>
+      <circle cx="70" cy="134" r="5" fill="#1baf7a"/>
+      <circle cx="88" cy="134" r="4.5" fill="none" stroke="#a3a29c" stroke-width="1.5"/>
+      <text x="102" y="138" font-size="11" fill="#52514e">세션 3개</text>
+    </g>
+    <g>
+      <rect x="30" y="176" width="212" height="92" rx="8" fill="#ffffff" stroke="#d8d7d2"/>
+      <text x="46" y="202" font-weight="700" fill="#0b0b0b">GPU 서버 A</text>
+      <text x="46" y="224" font-family="Menlo,monospace" font-size="11" fill="#52514e">~/.claude/projects</text>
+      <circle cx="52" cy="246" r="5" fill="#eda100"/>
+      <circle cx="70" cy="246" r="5" fill="#eda100"/>
+      <circle cx="88" cy="246" r="5" fill="#1baf7a"/>
+      <text x="102" y="250" font-size="11" fill="#52514e">세션 3개</text>
+    </g>
+    <g>
+      <rect x="30" y="288" width="212" height="92" rx="8" fill="#ffffff" stroke="#d8d7d2"/>
+      <text x="46" y="314" font-weight="700" fill="#0b0b0b">GPU 서버 B</text>
+      <text x="46" y="336" font-family="Menlo,monospace" font-size="11" fill="#52514e">~/.claude/projects</text>
+      <circle cx="52" cy="358" r="4.5" fill="none" stroke="#a3a29c" stroke-width="1.5"/>
+      <circle cx="70" cy="358" r="4.5" fill="none" stroke="#a3a29c" stroke-width="1.5"/>
+      <text x="86" y="362" font-size="11" fill="#52514e">세션 2개</text>
+    </g>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#52514e" stroke-width="1.6" fill="none">
+    <path d="M 242 110 C 300 110, 310 160, 368 190" marker-end="url(#arrow)"/>
+    <path d="M 242 222 L 368 222" marker-end="url(#arrow)"/>
+    <path d="M 242 334 C 300 334, 310 264, 368 244" marker-end="url(#arrow)"/>
+  </g>
+  <text x="305" y="208" font-size="12" fill="#0b0b0b" font-weight="700" text-anchor="middle">SSH</text>
+  <text x="305" y="252" font-size="11" fill="#52514e" text-anchor="middle">읽기 전용 스캔</text>
+
+  <!-- chat back-channel -->
+  <path d="M 368 300 C 320 320, 300 300, 246 268" stroke="#2a78d6" stroke-width="1.6" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="302" y="322" font-size="11" fill="#2a78d6" text-anchor="middle">tmux send-keys — 채팅 전송</text>
+
+  <!-- tower TUI -->
+  <g>
+    <rect x="380" y="64" width="510" height="316" rx="10" fill="#1e1e1d" stroke="#0b0b0b"/>
+    <rect x="380" y="64" width="510" height="34" rx="10" fill="#2b2b29"/>
+    <rect x="380" y="88" width="510" height="10" fill="#2b2b29"/>
+    <text x="398" y="87" font-size="13" font-weight="700" fill="#ffffff">Claude Tower</text>
+    <text x="512" y="87" font-size="11.5" fill="#c3c2b7">— 터미널 대시보드 (Ink TUI)</text>
+    <text x="874" y="87" font-size="11" fill="#c3c2b7" text-anchor="end">5h ▓▓▓░ 62% · 7d ▓░░░ 31%</text>
+
+    <!-- panel: servers -->
+    <rect x="394" y="110" width="108" height="222" rx="6" fill="none" stroke="#4a4a47"/>
+    <text x="404" y="128" font-size="10.5" fill="#8f8e88">SERVERS</text>
+    <text x="404" y="150" font-size="12" fill="#ffffff">local</text>
+    <text x="404" y="172" font-size="12" fill="#ffffff">gpu-a</text>
+    <text x="404" y="194" font-size="12" fill="#c3c2b7">gpu-b</text>
+
+    <!-- panel: sessions -->
+    <rect x="512" y="110" width="222" height="222" rx="6" fill="none" stroke="#4a4a47"/>
+    <text x="522" y="128" font-size="10.5" fill="#8f8e88">SESSIONS</text>
+    <rect x="518" y="136" width="210" height="20" rx="4" fill="#33413a"/>
+    <circle cx="530" cy="146" r="4" fill="#eda100"/>
+    <text x="541" y="150" font-size="11.5" fill="#ffffff">refactor-eval-harness</text>
+    <circle cx="530" cy="172" r="4" fill="#eda100"/>
+    <text x="541" y="176" font-size="11.5" fill="#c3c2b7">qlora-sweep · gpu-a</text>
+    <circle cx="530" cy="198" r="4" fill="#1baf7a"/>
+    <text x="541" y="202" font-size="11.5" fill="#c3c2b7">paper-draft · local</text>
+    <circle cx="530" cy="224" r="3.5" fill="none" stroke="#8f8e88" stroke-width="1.4"/>
+    <text x="541" y="228" font-size="11.5" fill="#8f8e88">data-pipeline · gpu-b</text>
+    <text x="522" y="258" font-size="10.5" fill="#8f8e88">● busy   ● idle   ○ offline</text>
+
+    <!-- panel: transcript -->
+    <rect x="744" y="110" width="132" height="222" rx="6" fill="none" stroke="#4a4a47"/>
+    <text x="754" y="128" font-size="10.5" fill="#8f8e88">TRANSCRIPT</text>
+    <g fill="#4a4a47">
+      <rect x="754" y="140" width="112" height="7" rx="3.5"/>
+      <rect x="754" y="154" width="96" height="7" rx="3.5"/>
+      <rect x="754" y="168" width="106" height="7" rx="3.5"/>
+      <rect x="754" y="182" width="82" height="7" rx="3.5"/>
+    </g>
+    <g fill="#33413a">
+      <rect x="754" y="202" width="112" height="7" rx="3.5"/>
+      <rect x="754" y="216" width="70" height="7" rx="3.5"/>
+    </g>
+
+    <!-- footer keys -->
+    <text x="398" y="362" font-size="11.5" fill="#c3c2b7" font-family="Menlo,monospace">i 채팅  ·  o 열기/부활  ·  n 새 세션  ·  D 일일 보고</text>
+  </g>
+
+  <!-- bottom principle -->
+  <text x="460" y="426" font-size="12.5" text-anchor="middle" fill="#0b0b0b" font-weight="700">Claude API 호출 0 — 세션은 파일에서 읽고, rate limit은 usage 메타데이터만 조회</text>
+  <text x="460" y="448" font-size="11.5" text-anchor="middle" fill="#52514e">AI 윤문이 필요한 곳은 사용자의 인터랙티브 claude(구독)로 처리</text>
+</svg>
