@@ -3,7 +3,7 @@ cv:
   label: AI Researcher — Medical Imaging · Computer Vision
   email: kwongitack@gmail.com
   image: ""
-  summary: 의료영상 분야에서 5년 이상의 산업체 경력을 가진 AI 연구자. 안저 스크리닝 제품에 탑재되는 딥러닝 모델을 개발·배포했으며, OOD 탐지·생성모델 기반 데이터 증강·라벨 효율적 학습을 연구했습니다.
+  summary: 의료 AI 연구자입니다. 상용 안저 스크리닝 의료기기에 탑재된 딥러닝 모델들을 직접 개발·배포했고, 국제 의료영상 챌린지에서 두 차례 우승했습니다(MICCAI 2022 DRAC · ISBI 2024 JustRAIGS). 국제 논문 10편, 특허 3건. 모델 연구부터 릴리즈 엔지니어링, 임상 검증까지 의료 AI 제품의 전 구간을 다룹니다.
 
   social_networks:
     - network: GitHub
@@ -12,6 +12,23 @@ cv:
       username: gitaek
 
   sections:
+    Experience:
+      - company: 뷰노 (VUNO, Inc.)
+        position: AI Researcher (연구개발본부 / Fundus 팀)
+        location: 서울
+        start_date: 2021-03
+        end_date: 2026-07
+        summary: 상용 안저 스크리닝 의료기기 VUNO Med-Fundus AI(12소견·7모델)와 출시 예정 제품 VUNO Med-Fundus Pro(3질환·6모델)의 탑재 모델과 서빙·릴리즈 체계를 담당. 2021.03–2024.03 전문연구요원 복무.
+        highlights:
+          - "제품 모델 — 12소견 분류 모델 고도화(TF→PyTorch 전환·Multi-Task Learning·Optuna HPO)로 AUROC 0.9712→0.9860, AUPRC 0.8198→0.8420, 3단계 학습을 1단계로 단순화해 v1.2 릴리즈. 신규 제품용 질환 분류(DR/AMD/RVO)·4클래스 정량화·혈관/위치 통합(2→1) 모델 개발."
+          - "입력 신뢰성(OOD) — one-class를 binary로 재설계해 정상 안저 오탈락 70,202장 중 1,359장→21장(특이도 0.9806→0.9997), 두 제품 공통 탑재."
+          - "생성모델 데이터 증강 — 텍스트 조건 안저 합성 120만 장(합성 데이터 단독 학습이 실데이터 단독과 대등함을 입증), 라벨 54장뿐인 병변 분할은 마스크 조건 Two-Stage 합성(+LoRA)으로 개선. 관련 특허 등록."
+          - "릴리즈·서빙 엔지니어링 — 추론 서빙 엔진(Celery+Redis 비동기 워커·멀티스테이지 Docker)과 원클릭 릴리스 CI/CD(AES-256-GCM 가중치 암호화·스모크 테스트)를 설계–구현–운영. OpenVINO/ONNX·int8 PTQ 적용, 벤치마크 하니스(23개 데이터셋 13,700장)로 릴리즈 품질 게이트 확립."
+          - "국제 챌린지 — MICCAI 2022 DRAC 3개 태스크 전부 1위(1저자·분류 태스크 전담) · ISBI 2024 JustRAIGS 종합 1위(팀 리드)."
+          - "연구·논문 — 재직 중 국제 논문 7편: 합성 OOD 탐지(BMVC 2023 oral), 준지도 병변 분할(MICCAI 2024), 표현학습(ICLR 2026), 해석가능 진단 시스템(Sci Rep 2023) 등."
+          - "임상·인허가 — 다기관 Reader Study, 허가용 확증 임상시험 등 제품 검증 참여."
+          - "연구 인프라 — LangGraph 8노드 멀티에이전트 연구 자동화 harness를 단독 설계·구현(3,000+ LOC)해 팀 공용 도구로 정착."
+
     Education:
       - institution: 한양대학교 대학원
         location: 서울
@@ -21,7 +38,7 @@ cv:
         end_date: 2021-02
         highlights:
           - 물체 검출·추적, 도메인 일반화, 딥 해싱 연구.
-          - ICLR 2020 논문 공저, Scientific Reports 2020 소아 장중첩증 검출 논문 공동 1저자.
+          - ICLR 2020 논문 공저, Scientific Reports 2020 소아 장중첩증 검출 논문 공동 1저자, 객체 추적 특허 등록.
 
       - institution: 한양대학교
         location: 서울
@@ -31,38 +48,21 @@ cv:
         end_date: 2019-02
         score: "GPA 3.71/4.5 (전공 3.83/4.5)"
         highlights:
-          - ACM-ICPC 한국 지역 본선 동상 — 10위 (2016).
+          - ACM-ICPC 한국 지역 본선 동상 (2016).
           - 알고리즘 동아리 ALOHA 회장 (2017) — 커리큘럼·캠프·교내 프로그래밍 대회(HCPC) 기획·운영.
-
-    Experience:
-      - company: 뷰노 (VUNO, Inc.)
-        position: AI Researcher (연구개발본부 / Fundus 팀)
-        location: 서울
-        start_date: 2021-03
-        end_date: 2026-07
-        summary: 상용 안저 스크리닝 제품 VUNO Med-Fundus AI와 출시 예정 제품 VUNO Med-Fundus Pro에 탑재되는 딥러닝 모델을 개발·검증부터 릴리즈 엔지니어링까지 담당. 2021.03–2024.03 전문연구요원 복무.
-        highlights:
-          - v1.2 제품 릴리즈 대상 소견 분류 모델 고도화 — AUROC +1.48%, AUPRC +2.22%, 학습 시간 15일 → 8시간 단축.
-          - 입력 필터링(OOD) 모델을 one-class에서 binary 분류로 재설계 — 정상 영상 오탈락 1,359장 → 21장, 특이도 0.9806 → 0.9997.
-          - 차기 제품용 질환 분류(DR/AMD/RVO)·병변 정량화·혈관/위치 통합 모델 개발.
-          - 안저 영상 합성 생성모델 개발 — 텍스트 조건 합성 약 120만 장 규모(합성 데이터 단독 학습이 실데이터 단독 학습과 대등), 라벨 54장뿐인 병변 분할 태스크에는 마스크 조건 Two-Stage 합성(LoRA 미세조정)으로 AUPRC +1.75%p 개선.
-          - Celery+Redis 비동기 추론 워커를 Docker 이미지로 패키징해 제품 개발팀에 전달, CI/CD 릴리즈 파이프라인 구축·유지보수(모델 가중치 암호화 포함), ONNX/OpenVINO 변환·INT8 양자화 적용.
-          - JustRAIGS 녹내장 챌린지(ISBI 2024) 팀 리드 — 종합 1위. DRAC 챌린지(MICCAI 2022) 1저자·실험 주도 — 3개 태스크 전부 1위.
-          - 인허가를 위한 임상 검증(다기관 Reader Study, 확증 임상시험) 참여.
-          - LangGraph 기반 멀티에이전트 연구 자동화 harness 구축.
 
     Awards:
       - title: JustRAIGS 챌린지 종합 1위 (Justified Referral in AI Glaucoma Screening)
         date: 2024-05
         awarder: ISBI 2024
-        summary: 팀 리드 — 기술 방향 설정과 협업 실험 파이프라인 표준화를 주도.
+        summary: 팀 리드 — 기술 방향 설정과 협업 실험 파이프라인 표준화를 주도. Multi-Stage(시신경유두 분할→crop→이종 백본 앙상블) 접근.
 
       - title: DRAC 챌린지 3개 태스크 전부 1위 (Diabetic Retinopathy Analysis Challenge)
         date: 2022-09
         awarder: MICCAI 2022
-        summary: 1저자로서 실험 주도.
+        summary: 1저자 — 분류 태스크 2·3 전담. 데이터 부족을 앙상블·TTA·신뢰 기반 pseudo-labeling으로 극복.
 
-      - title: ACM-ICPC 한국 지역 본선 동상 (10위)
+      - title: ACM-ICPC 한국 지역 본선 동상
         date: 2016-11
         awarder: ACM
         summary: 국제 대학생 프로그래밍 대회 (ICPC) 한국 본선.
@@ -71,12 +71,12 @@ cv:
       - title: 병변 정보 제공 방법 및 장치
         date: 2023-12
         awarder: 특허청 — 출원 10-2023-0184784
-        summary: 공동발명. 소견-질환 진단 시스템 관련.
+        summary: 공동발명. 소견-질환 해석가능 진단 시스템(Sci Rep 2023) 관련.
 
       - title: 이미지의 스타일을 전이하는 방법 및 이를 위한 장치
         date: 2023-10
         awarder: 특허청 — 등록 10-2592666
-        summary: 공동발명. 안저 영상 합성 생성모델 관련.
+        summary: 공동발명. 생성모델 기반 안저 영상 합성 관련.
 
       - title: 하드 네거티브 마이닝을 이용한 객체 추적 방법
         date: 2021-03
@@ -84,13 +84,21 @@ cv:
         summary: 공동발명. 석사 객체 추적 연구 기반.
 
     Skills:
-      - name: Deep Learning / Computer Vision
+      - name: Medical AI / Computer Vision
         icon: fa-solid fa-hashtag
-        keywords: "분류·분할·검출, OOD 탐지, 준지도/자기지도학습, diffusion 기반 영상 합성 — PyTorch"
+        keywords: "분류·분할·검출 모델 개발, OOD 탐지, 준지도·자기지도학습 — PyTorch (Lightning), MLflow, W&B"
 
-      - name: ML Engineering
+      - name: Generative AI
         icon: fa-solid fa-hashtag
-        keywords: "Docker 추론 런타임 패키징, Celery+Redis 비동기 워커, CI/CD (GitHub Actions)·모델 가중치 암호화, ONNX/OpenVINO 변환, INT8 양자화"
+        keywords: "Diffusion 기반 텍스트/마스크 조건 영상 합성 (SANA, LoRA), 대규모 합성 데이터셋 구축·검증"
+
+      - name: ML Engineering / MLOps
+        icon: fa-solid fa-hashtag
+        keywords: "Celery+Redis 비동기 서빙, 멀티스테이지 Docker, CI/CD (GitHub Actions)·모델 가중치 암호화, OpenVINO/ONNX·int8 PTQ, 벤치마크 하니스"
+
+      - name: LLM / Agents
+        icon: fa-solid fa-hashtag
+        keywords: "LangGraph 멀티에이전트 파이프라인 설계, VLM 파인튜닝 (QLoRA)·vLLM 서빙 (사이드 프로젝트)"
 
       - name: Programming
         icon: fa-solid fa-hashtag
