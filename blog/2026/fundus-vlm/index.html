@@ -1,0 +1,165 @@
+<!DOCTYPE html> <html lang="ko"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> fundus-vlm — 오픈 VLM으로 안저 스크리닝 리포트 만들기 | 권기택 · Gitaek Kwon </title> <meta name="author" content="Gitaek Kwon"> <meta name="description" content="오픈 VLM의 안저 판독 능력을 정량 측정하고 QLoRA로 전문 CNN급까지 끌어올린 뒤 구조화 리포트 생성·서빙까지 — 공개 데이터만으로"> <meta name="keywords" content="gitaek kwon, medical ai, computer vision, out-of-distribution detection, fundus, deep learning"> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=f0b101217084a90093badfe99ff9a7d1"> <link rel="canonical" href="https://anears.github.io/blog/2026/fundus-vlm/"> <script src="/assets/js/theme.js?v=7af685e2ba20b37fef545c97b8064050"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> 권기택 · Gitaek Kwon </a> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV </a> </li> <li class="nav-item"> <button id="search-toggle" type="button" title="Search" aria-label="Open search"> <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">fundus-vlm — 오픈 VLM으로 안저 스크리닝 리포트 만들기</h1> <p class="post-meta"> Created on July 24, 2026 </p> <p class="post-tags"> <a href="/blog/2026"> <i class="fa-solid fa-calendar fa-sm"></i> 2026 </a>   ·   <a href="/blog/tag/vlm"> <i class="fa-solid fa-hashtag fa-sm"></i> vlm</a>   <a href="/blog/tag/qlora"> <i class="fa-solid fa-hashtag fa-sm"></i> qlora</a>   <a href="/blog/tag/medical-ai"> <i class="fa-solid fa-hashtag fa-sm"></i> medical-ai</a>   <a href="/blog/tag/fundus"> <i class="fa-solid fa-hashtag fa-sm"></i> fundus</a>   <a href="/blog/tag/side-project"> <i class="fa-solid fa-hashtag fa-sm"></i> side-project</a> </p> </header> <article class="post-content"> <div id="markdown-content"> <p><a href="/blog/2026/ko-chart-vlm/">지난 프로젝트(ko-chart-vlm)</a>에서 “오픈 VLM의 약점을 숫자로 측정 → 겨냥한 데이터로 파인튜닝 → 서빙”이라는 사이클을 한국어 차트로 돌려봤습니다. <strong><a href="https://github.com/anears/fundus-vlm" rel="external nofollow noopener" target="_blank">fundus-vlm</a></strong>은 같은 방법론을 제 연구 도메인인 <strong>컬러 안저(color fundus) 사진</strong>으로 이식한 후속 프로젝트입니다.</p> <p>원칙은 하나 추가했습니다: <strong>공개 데이터셋만 사용합니다</strong> (APTOS 2019 · Messidor-2 · IDRiD · REFUGE · ODIR-5K · RFMiD, 총 ~31GB). 재현과 공유가 가능해야 하고, 내부/비공개 데이터는 쓰지 않습니다.</p> <h2 id="결과-하이라이트-frozen-val-319문항">결과 하이라이트 (frozen val 319문항)</h2> <table> <thead> <tr> <th>태스크</th> <th>지표</th> <th>Qwen3-VL-8B</th> <th>+QLoRA</th> <th>MedGemma-4B</th> <th>+QLoRA</th> <th>전문 CNN</th> </tr> </thead> <tbody> <tr> <td>DR 등급</td> <td>QWK</td> <td>0.718</td> <td>0.862</td> <td>0.838</td> <td><strong>0.874</strong></td> <td>0.861</td> </tr> <tr> <td>CDR 추정</td> <td>Pearson r</td> <td>0.216</td> <td>−0.00</td> <td>0.368</td> <td><strong>0.737</strong></td> <td>—</td> </tr> <tr> <td>다질환 8종</td> <td>macro-F1</td> <td>0.236</td> <td>0.487</td> <td>0.194</td> <td><strong>0.558</strong></td> <td>—</td> </tr> </tbody> </table> <ul> <li>파인튜닝한 VLM이 <strong>DR 전용 CNN(EfficientNet, QWK 0.861)의 상한선을 대등/상회</strong>하면서, 다질환 스크리닝·CDR 정량 추정·구조화 리포트 생성까지 <strong>한 모델</strong>로 처리합니다.</li> <li>최종 서빙 모델은 <strong>MedGemma-4B + QLoRA</strong> — 4B 의료 특화 모델이 8B 일반 모델을 전 태스크에서 이겼습니다.</li> </ul> <h2 id="가장-흥미로웠던-발견--의료-사전학습이-정량-회귀의-분기점">가장 흥미로웠던 발견 — 의료 사전학습이 정량 회귀의 분기점</h2> <p>CDR(수직 컵-디스크 비율, 녹내장 지표) 추정에서 두 모델의 운명이 갈렸습니다:</p> <ul> <li> <strong>Qwen3-VL-8B(일반)</strong>: zero-shot에서 실제 값과 무관하게 0.5 근처 상수를 출력했고(r=−0.14), SFT 후에는 <strong>평균값으로 붕괴</strong>(r→0)했습니다. 분류는 배우지만 정량 읽기는 배우지 못한 겁니다.</li> <li> <strong>MedGemma-4B(의료)</strong>: 같은 340개 CDR 학습 샘플로 <strong>r 0.368 → 0.737</strong>까지 실제로 학습했습니다.</li> </ul> <p>같은 데이터, 같은 레시피인데 <strong>의료 시각 사전학습 유무가 소량 데이터 정량 회귀의 성패를 갈랐습니다.</strong> disc 영역을 crop해서 주는 ablation은 도움이 되지 않았어서(음성 결과), 결정 요인은 입력 해상도가 아니라 사전학습이라는 쪽에 무게가 실립니다.</p> <h2 id="진행-방식--6개-phase">진행 방식 — 6개 phase</h2> <ol> <li> <strong>데이터</strong> — 매니페스트 기반 다운로더로 공개 6종 다운로드·검증. 미러 데이터의 함정(APTOS 라벨이 클래스명 알파벳순으로 인코딩되어 임상 순서와 다름)을 검증노트로 기록.</li> <li> <strong>zero-shot 진단</strong> — 170문항으로 약점 정량화: Mild DR <strong>0/18</strong>, glaucoma <strong>0/5</strong>, CDR 상수 출력.</li> <li> <strong>평가 하네스</strong> — frozen val 319문항 + 채점기 자체검증 17/17. 일반(Qwen) vs 의료(MedGemma) baseline 확정.</li> <li> <strong>데이터 구축</strong> — train 여집합에서 VQA + 템플릿 리포트 <strong>6,528페어</strong> 생성 (val 누수 없음, 약점 타깃 균형 샘플링, 전문가 라벨·세그멘테이션에서 GT 계산).</li> <li> <strong>QLoRA SFT</strong> — 두 모델 병렬 파인튜닝 (RTX 4090 한 장).</li> <li> <strong>분석·서빙</strong> — 오류분석, EfficientNet 상한선 비교, disc-crop ablation, Gradio 데모 + vLLM/AWQ 서빙 문서.</li> </ol> <p>ko-chart-vlm에서 가져온 실험 규칙도 그대로입니다 — 실험 1건 = 디렉터리 1개(결과 jsonl + meta + report), 모든 주장은 수치로, 실패(Qwen CDR 붕괴, disc-crop 음성)도 리포트에 그대로 남깁니다.</p> <h2 id="링크">링크</h2> <ul> <li>저장소: <a href="https://github.com/anears/fundus-vlm" rel="external nofollow noopener" target="_blank">anears/fundus-vlm</a> — phase별 리포트·데이터 검증노트·데모 코드</li> <li>선행 프로젝트: <a href="/blog/2026/ko-chart-vlm/">한국어 차트를 못 읽는 VLM, 7일 만에 고치기</a> </li> </ul> <p><strong>스택</strong>: Qwen3-VL-8B · MedGemma-4B · QLoRA(커스텀 트레이너) · vLLM · Gradio · uv</p> </div> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Gitaek Kwon. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/al_search/js/search/ninja-keys.min.js"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/al_search/js/search-setup.js"></script> <script>
+// get the ninja-keys element
+const ninja = document.querySelector('ninja-keys');
+
+// add the home and posts menu items
+ninja.data = [{
+    id: "nav-about",
+    title: "about",
+    section: "Navigation",
+    handler: () => {
+      window.location.href = "/";
+    },
+  },{id: "nav-publications",
+          title: "publications",
+          description: "최신순으로 정리한 논문 목록입니다. 국제 학회·저널 10편, 국내 학회 3편.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/publications/";
+          },
+        },{id: "nav-blog",
+          title: "blog",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/blog/";
+          },
+        },{id: "nav-cv",
+          title: "CV",
+          description: "학력·경력·수상·특허 요약입니다.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
+        },{id: "post-fundus-vlm-오픈-vlm으로-안저-스크리닝-리포트-만들기",
+        
+          title: "fundus-vlm — 오픈 VLM으로 안저 스크리닝 리포트 만들기",
+        
+        description: "오픈 VLM의 안저 판독 능력을 정량 측정하고 QLoRA로 전문 CNN급까지 끌어올린 뒤 구조화 리포트 생성·서빙까지 — 공개 데이터만으로",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/fundus-vlm/";
+          
+        },
+      },{id: "post-한국어-차트를-못-읽는-vlm-7일-만에-고치기",
+        
+          title: "한국어 차트를 못 읽는 VLM, 7일 만에 고치기",
+        
+        description: "진단부터 QLoRA 파인튜닝, vLLM 서빙까지 풀사이클 — val 70.2% → 96.6%",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/ko-chart-vlm/";
+          
+        },
+      },{id: "post-artiview-코딩-에이전트가-쏟아내는-html을-위한-로컬-갤러리",
+        
+          title: "Artiview — 코딩 에이전트가 쏟아내는 HTML을 위한 로컬 갤러리",
+        
+        description: "에이전트 산출물(HTML·Markdown·PDF)을 라이브 썸네일·전문 검색·SSH 원격 폴더로 탐색하는 데스크톱 앱을 만들었습니다",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/artiview/";
+          
+        },
+      },{id: "post-claude-tower-여러-서버의-claude-code-세션을-한-화면에서-관리하는-tui",
+        
+          title: "Claude Tower — 여러 서버의 Claude Code 세션을 한 화면에서 관리하는 TUI",
+        
+        description: "SSH로 흩어진 Claude Code 세션들을 모아 보고, 채팅을 보내고, 일일 업무 보고까지 뽑아주는 터미널 대시보드",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/claude-tower/";
+          
+        },
+      },{id: "news-miccai-2022-당뇨망막병증-분석-챌린지-drac-에서-3개-태스크-전부-1위-를-차지했습니다-trophy",
+          title: 'MICCAI 2022 당뇨망막병증 분석 챌린지(DRAC)에서 **3개 태스크 전부 1위**를 차지했습니다. <img class="emoji" title=":trophy:" alt=":trophy:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3c6.png" height="20" width="20">',
+          description: "",
+          section: "News",},{id: "news-영국-애버딘에서-열린-bmvc-2023-에서-visual-foundation-model-기반-합성-outlier-생성으로-ood-탐지-성능을-개선하는-연구를-oral-로-발표했습니다-microphone",
+          title: '영국 애버딘에서 열린 **BMVC 2023**에서 visual foundation model 기반 합성 outlier 생성으로 OOD...',
+          description: "",
+          section: "News",},{id: "news-isbi-2024-justraigs-녹내장-스크리닝-챌린지에서-종합-1위-를-차지했습니다-trophy",
+          title: 'ISBI 2024 JustRAIGS 녹내장 스크리닝 챌린지에서 **종합 1위**를 차지했습니다. <img class="emoji" title=":trophy:" alt=":trophy:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3c6.png" height="20" width="20">',
+          description: "",
+          section: "News",},{id: "news-공저-논문-2편이-게재-승인되었습니다-iclr-2026-frequency-balanced-retinal-representation-learning-isbi-2026-ml-vs-dl-for-ood-detection",
+          title: '공저 논문 2편이 게재 승인되었습니다 — **ICLR 2026** (*Frequency-Balanced Retinal Representation Learning*), **ISBI...',
+          description: "",
+          section: "News",},{
+        id: 'social-email',
+        title: 'email',
+        section: 'Socials',
+        handler: () => {
+          window.open("mailto:%6B%77%6F%6E%67%69%74%61%63%6B@%67%6D%61%69%6C.%63%6F%6D", "_blank");
+        },
+      },{
+        id: 'social-github',
+        title: 'GitHub',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://github.com/anears", "_blank");
+        },
+      },{
+        id: 'social-linkedin',
+        title: 'LinkedIn',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://www.linkedin.com/in/gitaek", "_blank");
+        },
+      },{
+        id: 'social-scholar',
+        title: 'Google Scholar',
+        section: 'Socials',
+        handler: () => {
+          window.open("https://scholar.google.com/citations?user=oOWVM3IAAAAJ", "_blank");
+        },
+      },{
+        id: 'social-rss',
+        title: 'RSS Feed',
+        section: 'Socials',
+        handler: () => {
+          window.open("/feed.xml", "_blank");
+        },
+      },{
+      id: 'light-theme',
+      title: 'Change theme to light',
+      description: 'Change the theme of the site to Light',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("light");
+      },
+    },
+    {
+      id: 'dark-theme',
+      title: 'Change theme to dark',
+      description: 'Change the theme of the site to Dark',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("dark");
+      },
+    },
+    {
+      id: 'system-theme',
+      title: 'Use system default theme',
+      description: 'Change the theme of the site to System Default',
+      section: 'Theme',
+      handler: () => {
+        setThemeSetting("system");
+      },
+    },];
+
+</script> <script src="/assets/al_search/js/shortcut-key.js"></script> </body> </html>
