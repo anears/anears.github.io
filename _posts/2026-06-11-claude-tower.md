@@ -3,7 +3,7 @@ layout: post
 title: Claude Tower — 여러 서버의 Claude Code 세션을 한 화면에서 관리하는 TUI
 date: 2026-06-11 18:00:00+0900
 description: 서버마다 ssh → tmux attach를 반복하는 대신, 흩어진 세션을 모아 보고 채팅을 보내고 일일 업무 보고까지 뽑는 터미널 대시보드
-tags: tui typescript claude-code side-project
+tags: dev-tools ai-agents side-project
 related_posts: false
 ---
 

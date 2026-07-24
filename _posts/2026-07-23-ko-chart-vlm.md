@@ -3,7 +3,7 @@ layout: post
 title: 한국어 차트를 못 읽는 VLM, 7일 만에 고치기
 date: 2026-07-23 10:00:00+0900
 description: 진단부터 QLoRA 파인튜닝, vLLM 서빙까지 풀사이클 — val 70.2% → 96.6%
-tags: vlm qlora vllm side-project
+tags: vlm fine-tuning side-project
 related_posts: false
 toc:
   sidebar: left

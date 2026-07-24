@@ -3,7 +3,7 @@ layout: post
 title: fundus-vlm — 오픈 VLM으로 안저 스크리닝 리포트 만들기
 date: 2026-07-24 09:00:00+0900
 description: 오픈 VLM의 안저 판독 능력을 정량 측정하고, QLoRA로 전문 CNN급까지 끌어올리고, 구조화 리포트 생성·서빙까지 — 공개 데이터만으로
-tags: vlm qlora medical-ai fundus side-project
+tags: vlm fine-tuning medical-ai side-project
 related_posts: false
 ---
 
